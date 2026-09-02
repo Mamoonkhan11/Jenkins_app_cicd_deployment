@@ -7,14 +7,18 @@ def COLOR_MAP = [
 
 pipeline {
     agent any
+
     tools {
         nodejs 'nodejs'
     }
+
     environment {
         APP_NAME    = "attendance-salary-app"
         NEXUS_URL   = "172.31.23.119:8081"
         NEXUS_REPO  = "payroll-repo"
         GROUP_ID    = "com.company.payroll"
+        S3_BUCKET   = "attendance-salary-app-bucket"
+        AWS_REGION  = "us-east-1"
     }
 
     stages {
@@ -75,7 +79,7 @@ pipeline {
                     protocol: 'http',
                     nexusUrl: "${NEXUS_URL}",
                     groupId: "${GROUP_ID}",
-                    version: "${env.BUILD_ID}",
+                    version: "1.0.${env.BUILD_ID}",
                     repository: "${NEXUS_REPO}",
                     credentialsId: 'nexuslogin',
                     artifacts: [
@@ -90,10 +94,28 @@ pipeline {
             }
         }
 
+        stage('Deploy to AWS S3') {
+            steps {
+                echo 'Fetching compiled package from Nexus Repository and deploying to AWS S3...'
+                withCredentials([usernamePassword(credentialsId: 'nexuslogin', usernameVariable: 'NEXUS_USER', passwordVariable: 'NEXUS_PASS')]) {
+                    withAWS(credentials: 'Jenkins_aws_login', region: "${AWS_REGION}") {
+                        sh '''
+                            mkdir -p deploy_tmp && cd deploy_tmp  
+                            curl -u ${NEXUS_USER}:${NEXUS_PASS} -O http://${NEXUS_URL}/repository/${NEXUS_REPO}/com/company/payroll/${APP_NAME}/1.0.${env.BUILD_ID}/${APP_NAME}-1.0.${env.BUILD_ID}.tgz || \
+                            curl -u ${NEXUS_USER}:${NEXUS_PASS} -O http://${NEXUS_URL}/repository/${NEXUS_REPO}/${APP_NAME}-1.0.${env.BUILD_ID}.tgz
+                            tar -xzvf *.tgz
+                            aws s3 sync . s3://${S3_BUCKET} --exclude '*.tgz' --delete
+                            cd .. && rm -rf deploy_tmp
+                        '''
+                    }
+                }
+            }
+        }
+        
         stage('Clean Up') {
             steps {
-                 echo 'Cleaning up the workspace...'
-                 sh 'rm -rf **/*.tgz && rm -rf **/*.json'
+                 echo 'Cleaning up generated build artifacts...'
+                 sh 'rm -f *.tgz eslint-report.json || true'
             }
         }
     }
