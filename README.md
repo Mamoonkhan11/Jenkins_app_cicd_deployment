@@ -1,4 +1,4 @@
-# 📊 Attendance & Salary Management System
+# Attendance & Salary Management System
 
 [![Build Status](https://img.shields.io/badge/Jenkins-Pipeline-blue.svg)](https://jenkins.io)
 [![SonarQube](https://img.shields.io/badge/SonarQube-Quality%20Gate%20Passed-green.svg)](https://sonarqube.org)
@@ -9,7 +9,7 @@ A high-performance **Attendance & Salary Management System** with automated payr
 
 ---
 
-## 🌟 Key Application Features
+## Key Application Features
 
 - **Attendance Tracker**: Log daily employee attendance, days present vs absent, and attendance percentage.
 - **Automated Payroll Engine**: Calculates net salary based on base salary, working days present, and 10% tax deduction.
@@ -19,7 +19,7 @@ A high-performance **Attendance & Salary Management System** with automated payr
 
 ---
 
-## 🏗️ Dual CI/CD Architecture Overview
+## Dual CI/CD Architecture Overview
 
 This project includes **two complete enterprise CI/CD implementations**:
 
@@ -53,24 +53,24 @@ flowchart LR
 
 ---
 
-## 📂 Project Repository Structure
+## Project Repository Structure
 
 ```text
 attendance-salary-app/
-├── index.html              # Glassmorphism Dashboard UI
-├── style.css               # Design System Tokens & Modern Typography
-├── app.js                  # State Management & Payroll Calculation Engine
-├── test.js                 # Automated Salary Calculation Unit Test Suite
-├── package.json            # NPM Build & Test Scripts
-├── eslint.config.js        # Modern ESLint Flat Configuration File
-├── Dockerfile              # Multi-Stage Docker Build File (Node -> Nginx)
-├── Jenkinsfile.packaging   # Approach 1 CI/CD Pipeline (Native + Nexus)
-└── Jenkinsfile.docker      # Approach 2 CI/CD Pipeline (Docker + ECR + ECS)
+├── index.html              
+├── style.css               
+├── app.js                  
+├── test.js                 
+├── package.json            
+├── eslint.config.js        
+├── Dockerfile              
+├── Jenkinsfile  
+└── Jenkins/Jenkinsfile      
 ```
 
 ---
 
-## 🚀 Local Development & Setup
+## Local Development & Setup
 
 ### 1. Run Application Locally
 Open `index.html` directly in your browser, or start a local web server:
@@ -97,7 +97,7 @@ docker run -d -p 8080:80 attendance-salary-app:latest
 
 ---
 
-## ⚙️ Jenkins CI/CD Setup & Prerequisites
+## Jenkins CI/CD Setup & Prerequisites
 
 ### Required Jenkins Credentials
 - `nexuslogin`: Credentials for Sonatype Nexus Repository.
@@ -109,7 +109,7 @@ docker run -d -p 8080:80 attendance-salary-app:latest
 
 ---
 
-## 📊 Pipeline Comparison Matrix
+## Pipeline Comparison Matrix
 
 | Pipeline Step | Approach 1 (Jenkinsfile.packaging) | Approach 2 (Jenkinsfile.docker) |
 | :--- | :--- | :--- |
