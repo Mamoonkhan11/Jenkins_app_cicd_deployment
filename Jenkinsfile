@@ -99,14 +99,14 @@ pipeline {
                 echo 'Fetching compiled package from Nexus Repository and deploying to AWS S3...'
                 withCredentials([usernamePassword(credentialsId: 'nexuslogin', usernameVariable: 'NEXUS_USER', passwordVariable: 'NEXUS_PASS')]) {
                     withAWS(credentials: 'Jenkins_aws_login', region: "${AWS_REGION}") {
-                        sh '''
+                        sh """
                             mkdir -p deploy_tmp && cd deploy_tmp  
-                            curl -u ${NEXUS_USER}:${NEXUS_PASS} -O http://${NEXUS_URL}/repository/${NEXUS_REPO}/com/company/payroll/${APP_NAME}/1.0.${env.BUILD_ID}/${APP_NAME}-1.0.${env.BUILD_ID}.tgz || \
-                            curl -u ${NEXUS_USER}:${NEXUS_PASS} -O http://${NEXUS_URL}/repository/${NEXUS_REPO}/${APP_NAME}-1.0.${env.BUILD_ID}.tgz
+                            curl -u \${NEXUS_USER}:\${NEXUS_PASS} -O http://${NEXUS_URL}/repository/${NEXUS_REPO}/com/company/payroll/${APP_NAME}/1.0.${env.BUILD_ID}/${APP_NAME}-1.0.${env.BUILD_ID}.tgz || \
+                            curl -u \${NEXUS_USER}:\${NEXUS_PASS} -O http://${NEXUS_URL}/repository/${NEXUS_REPO}/${APP_NAME}-1.0.${env.BUILD_ID}.tgz
                             tar -xzvf *.tgz
                             aws s3 sync . s3://${S3_BUCKET} --exclude '*.tgz' --delete
                             cd .. && rm -rf deploy_tmp
-                        '''
+                        """
                     }
                 }
             }
