@@ -1,4 +1,3 @@
-// Approach 1: CI/CD Pipeline using Native Packaging Tool & Nexus Repository
 def COLOR_MAP = [
     'SUCCESS': 'good', 
     'FAILURE': 'danger',
@@ -8,7 +7,9 @@ def COLOR_MAP = [
 
 pipeline {
     agent any
-
+    tools {
+        nodejs 'node18'
+    }
     environment {
         APP_NAME    = "attendance-salary-app"
         NEXUS_URL   = "172.31.23.119:8081"
@@ -34,6 +35,7 @@ pipeline {
             steps {
                 echo 'Executing Automated Unit & Salary Calculation Tests...'
                 sh 'npm test'
+                sh 'npx -y eslint -f json -o eslint-report.json .'
             }
         }
 
@@ -51,7 +53,7 @@ pipeline {
                         -Dsonar.sources=. \
                         -Dsonar.exclusions=node_modules/**,*.tgz \
                         -Dsonar.javascript.lcov.reportPaths=coverage/lcov.info \
-                        -Dsonar.eslint.reportPaths=eslint-report.json \
+                        -Dsonar.eslint.reportPaths=eslint-report.json'''
                 }
             }
         }
@@ -88,10 +90,10 @@ pipeline {
             }
         }
 
-        stage('Deploy to Server') {
+        stage('Clean Up') {
             steps {
-                echo 'Deploying packaged artifact to production application web server...'
-                sh "echo 'Deploying ${APP_NAME} build ${env.BUILD_ID} to Web Server...'"
+                 echo 'Cleaning up the workspace...'
+                 sh 'rm -rf **/*.tgz && rm -rf **/*.json'
             }
         }
     }
