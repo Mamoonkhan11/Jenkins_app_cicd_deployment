@@ -8,7 +8,7 @@ def COLOR_MAP = [
 pipeline {
     agent any
     tools {
-        nodejs "NodeJS 18"
+        nodejs 'nodejs'
     }
     environment {
         APP_NAME    = "attendance-salary-app"
