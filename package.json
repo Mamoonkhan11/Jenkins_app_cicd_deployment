@@ -1,0 +1,15 @@
+{
+  "name": "attendance-salary-app",
+  "version": "1.0.0",
+  "description": "Attendance & Salary Management System",
+  "main": "index.html",
+  "scripts": {
+    "start": "npx serve .",
+    "build": "tar -czvf attendance-salary-app-1.0.0.tgz index.html style.css app.js",
+    "package": "npm run build",
+    "test": "node test.js"
+  },
+  "keywords": ["attendance", "payroll", "salary", "management"],
+  "author": "DevOps Team",
+  "license": "MIT"
+}
