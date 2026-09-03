@@ -126,16 +126,16 @@
         <div class="modal-card">
             <div class="modal-header">
                 <h3>Add New Employee (India Branch)</h3>
-                <button class="close-btn" id="close-modal-emp">&times;</button>
+                <button class="close-btn" id="close-modal-emp" aria-label="Close modal">&times;</button>
             </div>
             <form id="form-add-employee">
                 <div class="form-group">
-                    <label>Full Name</label>
+                    <label for="emp-name">Full Name</label>
                     <input type="text" id="emp-name" placeholder="e.g. Aarav Sharma" required>
                 </div>
                 <div class="form-row">
                     <div class="form-group">
-                        <label>Department</label>
+                        <label for="emp-dept">Department</label>
                         <select id="emp-dept" required>
                             <option value="DevOps & Cloud">DevOps & Cloud</option>
                             <option value="Engineering">Engineering</option>
@@ -145,7 +145,7 @@
                         </select>
                     </div>
                     <div class="form-group">
-                        <label>Location in India</label>
+                        <label for="emp-location">Location in India</label>
                         <select id="emp-location" required>
                             <option value="Bengaluru">Bengaluru</option>
                             <option value="Mumbai">Mumbai</option>
@@ -157,11 +157,11 @@
                 </div>
                 <div class="form-row">
                     <div class="form-group">
-                        <label>Monthly Basic Salary (₹)</label>
+                        <label for="emp-salary">Monthly Basic Salary (₹)</label>
                         <input type="number" id="emp-salary" min="10000" step="5000" value="75000" required>
                     </div>
                     <div class="form-group">
-                        <label>Working Days/Month</label>
+                        <label for="emp-days">Working Days/Month</label>
                         <input type="number" id="emp-days" value="22" required>
                     </div>
                 </div>
