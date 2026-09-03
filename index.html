@@ -3,11 +3,11 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Attendance & Salary Management System</title>
+    <title>Attendance & Salary Management System - India (INR ₹)</title>
     <link rel="stylesheet" href="style.css">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
     <script src="https://cdn.jsdelivr.net/npm/lucide@latest/dist/umd/lucide.min.js"></script>
 </head>
 <body>
@@ -16,20 +16,20 @@
         <aside class="sidebar">
             <div class="brand">
                 <i data-lucide="building-2" class="brand-icon"></i>
-                <h2>PayrollPulse</h2>
+                <h2>PayrollPulse <span class="india-badge">IN 🇮🇳</span></h2>
             </div>
             <nav class="nav-menu">
                 <a href="#dashboard" class="nav-link active"><i data-lucide="layout-dashboard"></i> Dashboard</a>
                 <a href="#employees" class="nav-link"><i data-lucide="users"></i> Employees</a>
-                <a href="#attendance" class="nav-link"><i data-lucide="calendar-check"></i> Attendance</a>
-                <a href="#payroll" class="nav-link"><i data-lucide="wallet"></i> Salary Payroll</a>
-                <a href="#reports" class="nav-link"><i data-lucide="file-text"></i> Payslips</a>
+                <a href="#attendance" class="nav-link"><i data-lucide="calendar-check"></i> Attendance Log</a>
+                <a href="#payroll" class="nav-link"><i data-lucide="indian-rupee"></i> INR Payroll</a>
+                <a href="#reports" class="nav-link"><i data-lucide="file-text"></i> Salary Slips</a>
             </nav>
             <div class="user-profile">
                 <div class="avatar">HR</div>
                 <div class="user-info">
-                    <span class="name">Admin User</span>
-                    <span class="role">HR & Payroll Manager</span>
+                    <span class="name">Rajesh Varma</span>
+                    <span class="role">Head of HR & Payroll (India)</span>
                 </div>
             </div>
         </aside>
@@ -38,11 +38,11 @@
         <main class="main-content">
             <header class="top-header">
                 <div class="header-title">
-                    <h1 id="page-title">Dashboard Overview</h1>
-                    <p class="subtitle">Attendance tracking and automated payroll management system</p>
+                    <h1 id="page-title">Indian Payroll & Attendance Hub</h1>
+                    <p class="subtitle">Automated Attendance Tracking, PF, PT, TDS & Salary Disbursement (INR ₹)</p>
                 </div>
                 <div class="header-actions">
-                    <button class="btn btn-secondary" id="btn-clock"><i data-lucide="clock"></i> Quick Attendance</button>
+                    <button class="btn btn-secondary" id="btn-clock"><i data-lucide="clock"></i> Mark Attendance</button>
                     <button class="btn btn-primary" id="btn-add-employee"><i data-lucide="user-plus"></i> Add Employee</button>
                 </div>
             </header>
@@ -52,7 +52,7 @@
                 <div class="metric-card">
                     <div class="metric-icon blue"><i data-lucide="users"></i></div>
                     <div class="metric-data">
-                        <span class="metric-label">Total Employees</span>
+                        <span class="metric-label">Total Workforce</span>
                         <h3 id="stat-total-emp">0</h3>
                     </div>
                 </div>
@@ -66,15 +66,15 @@
                 <div class="metric-card">
                     <div class="metric-icon yellow"><i data-lucide="user-minus"></i></div>
                     <div class="metric-data">
-                        <span class="metric-label">On Leave / Absent</span>
+                        <span class="metric-label">Absent / Leaves</span>
                         <h3 id="stat-absent">0</h3>
                     </div>
                 </div>
                 <div class="metric-card">
-                    <div class="metric-icon purple"><i data-lucide="dollar-sign"></i></div>
+                    <div class="metric-icon purple"><i data-lucide="indian-rupee"></i></div>
                     <div class="metric-data">
-                        <span class="metric-label">Monthly Payroll ($)</span>
-                        <h3 id="stat-payroll">$0</h3>
+                        <span class="metric-label">Total Net Payroll (₹)</span>
+                        <h3 id="stat-payroll">₹0</h3>
                     </div>
                 </div>
             </section>
@@ -82,10 +82,20 @@
             <!-- Employee & Attendance Section -->
             <section class="content-card">
                 <div class="card-header">
-                    <h2>Employee Payroll & Attendance Log</h2>
-                    <div class="search-box">
-                        <i data-lucide="search"></i>
-                        <input type="text" id="search-input" placeholder="Search by name or department...">
+                    <h2>Employee Payroll & Attendance Roster</h2>
+                    <div class="filter-controls">
+                        <div class="search-box">
+                            <i data-lucide="search"></i>
+                            <input type="text" id="search-input" placeholder="Search by name, role or department...">
+                        </div>
+                        <select id="filter-location" class="filter-select">
+                            <option value="ALL">All Indian Locations</option>
+                            <option value="Bengaluru">Bengaluru</option>
+                            <option value="Mumbai">Mumbai</option>
+                            <option value="Delhi NCR">Delhi NCR</option>
+                            <option value="Hyderabad">Hyderabad</option>
+                            <option value="Pune">Pune</option>
+                        </select>
                     </div>
                 </div>
                 <div class="table-responsive">
@@ -93,11 +103,11 @@
                         <thead>
                             <tr>
                                 <th>Employee</th>
-                                <th>Department</th>
-                                <th>Base Monthly ($)</th>
+                                <th>Department & Location</th>
+                                <th>Basic Salary (₹)</th>
                                 <th>Days Present</th>
                                 <th>Attendance %</th>
-                                <th>Net Payable Salary ($)</th>
+                                <th>Net Payable (₹)</th>
                                 <th>Status</th>
                                 <th>Actions</th>
                             </tr>
@@ -115,28 +125,40 @@
     <div class="modal-backdrop" id="modal-employee">
         <div class="modal-card">
             <div class="modal-header">
-                <h3>Add New Employee</h3>
+                <h3>Add New Employee (India Branch)</h3>
                 <button class="close-btn" id="close-modal-emp">&times;</button>
             </div>
             <form id="form-add-employee">
                 <div class="form-group">
                     <label>Full Name</label>
-                    <input type="text" id="emp-name" placeholder="e.g. Sarah Jenkins" required>
-                </div>
-                <div class="form-group">
-                    <label>Department</label>
-                    <select id="emp-dept" required>
-                        <option value="Engineering">Engineering</option>
-                        <option value="DevOps & Cloud">DevOps & Cloud</option>
-                        <option value="Human Resources">Human Resources</option>
-                        <option value="Finance">Finance</option>
-                        <option value="Marketing">Marketing</option>
-                    </select>
+                    <input type="text" id="emp-name" placeholder="e.g. Aarav Sharma" required>
                 </div>
                 <div class="form-row">
                     <div class="form-group">
-                        <label>Base Monthly Salary ($)</label>
-                        <input type="number" id="emp-salary" min="1000" step="500" value="5000" required>
+                        <label>Department</label>
+                        <select id="emp-dept" required>
+                            <option value="DevOps & Cloud">DevOps & Cloud</option>
+                            <option value="Engineering">Engineering</option>
+                            <option value="Human Resources">Human Resources</option>
+                            <option value="Finance">Finance</option>
+                            <option value="Product">Product</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label>Location in India</label>
+                        <select id="emp-location" required>
+                            <option value="Bengaluru">Bengaluru</option>
+                            <option value="Mumbai">Mumbai</option>
+                            <option value="Delhi NCR">Delhi NCR</option>
+                            <option value="Hyderabad">Hyderabad</option>
+                            <option value="Pune">Pune</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="form-row">
+                    <div class="form-group">
+                        <label>Monthly Basic Salary (₹)</label>
+                        <input type="number" id="emp-salary" min="10000" step="5000" value="75000" required>
                     </div>
                     <div class="form-group">
                         <label>Working Days/Month</label>
@@ -145,7 +167,7 @@
                 </div>
                 <div class="modal-actions">
                     <button type="button" class="btn btn-secondary" id="btn-cancel-emp">Cancel</button>
-                    <button type="submit" class="btn btn-primary">Save Employee</button>
+                    <button type="submit" class="btn btn-primary">Save Employee Record</button>
                 </div>
             </form>
         </div>
@@ -155,14 +177,14 @@
     <div class="modal-backdrop" id="modal-payslip">
         <div class="modal-card payslip-card">
             <div class="modal-header">
-                <h3>Employee Payslip Statement</h3>
+                <h3>Salary Slip Statement (INR ₹)</h3>
                 <button class="close-btn" id="close-modal-payslip">&times;</button>
             </div>
             <div id="payslip-content" class="payslip-content">
                 <!-- Dynamically populated -->
             </div>
             <div class="modal-actions">
-                <button class="btn btn-primary" onclick="window.print()"><i data-lucide="printer"></i> Print Payslip</button>
+                <button class="btn btn-primary" onclick="window.print()"><i data-lucide="printer"></i> Print Indian Payslip</button>
             </div>
         </div>
     </div>
