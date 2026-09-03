@@ -42,13 +42,13 @@ const payslipContent = document.getElementById('payslip-content');
 function calculateIndianPayroll(emp) {
     const dailyRate = emp.baseSalary / emp.daysInMonth;
     const earnedBasic = dailyRate * emp.daysPresent;
-    const hraAllowance = earnedBasic * 0.20; // 20% HRA
+    const hraAllowance = earnedBasic * 0.2; // 20% HRA
     const grossSalary = earnedBasic + hraAllowance;
 
     // Deductions
     const pfDeduction = earnedBasic * 0.12; // 12% Provident Fund
     const ptDeduction = grossSalary > 15000 ? 200 : 0; // Professional Tax ₹200
-    const tdsDeduction = grossSalary > 50000 ? grossSalary * 0.10 : 0; // 10% TDS for higher slabs
+    const tdsDeduction = grossSalary > 50000 ? grossSalary * 0.1 : 0; // 10% TDS for higher slabs
 
     const totalDeductions = pfDeduction + ptDeduction + tdsDeduction;
     const netPayable = Math.max(0, grossSalary - totalDeductions);
@@ -82,7 +82,7 @@ function render() {
 
     filtered.forEach(emp => {
         const payroll = calculateIndianPayroll(emp);
-        const netPayFloat = parseFloat(payroll.netPayable);
+        const netPayFloat = Number.parseFloat(payroll.netPayable);
         totalPayroll += netPayFloat;
 
         if (emp.status === 'Present') presentCount++;
@@ -208,9 +208,9 @@ formAddEmp.addEventListener('submit', (e) => {
         name: document.getElementById('emp-name').value,
         dept: document.getElementById('emp-dept').value,
         location: document.getElementById('emp-location').value,
-        baseSalary: parseFloat(document.getElementById('emp-salary').value),
-        daysInMonth: parseInt(document.getElementById('emp-days').value),
-        daysPresent: parseInt(document.getElementById('emp-days').value),
+        baseSalary: Number.parseFloat(document.getElementById('emp-salary').value),
+        daysInMonth: Number.parseInt(document.getElementById('emp-days').value, 10),
+        daysPresent: Number.parseInt(document.getElementById('emp-days').value, 10),
         status: 'Present'
     };
     employees.push(newEmp);
