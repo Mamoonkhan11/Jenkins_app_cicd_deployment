@@ -9,7 +9,9 @@ def dockerImage
 
 pipeline {
     agent any
-
+    tools {
+        nodejs 'nodejs'
+    }
     environment {
         registryCredential = 'ecr:us-east-1:Jenkins_aws_login'
         appRegistry        = "667836586343.dkr.ecr.us-east-1.amazonaws.com/attendance-salary-app"
