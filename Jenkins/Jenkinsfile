@@ -9,9 +9,11 @@ def dockerImage
 
 pipeline {
     agent any
+
     tools {
         nodejs 'nodejs'
     }
+
     environment {
         registryCredential = 'ecr:us-east-1:Jenkins_aws_login'
         appRegistry        = "667836586343.dkr.ecr.us-east-1.amazonaws.com/attendance-salary-app"
@@ -43,8 +45,7 @@ pipeline {
                         -Dsonar.sources=. \
                         -Dsonar.exclusions=node_modules/**,*.tgz \
                         -Dsonar.javascript.lcov.reportPaths=coverage/lcov.info \
-                        -Dsonar.eslint.reportPaths=eslint-report.json 
-                        '''
+                        -Dsonar.eslint.reportPaths=eslint-report.json'''
                 }
             }
         }
@@ -61,8 +62,8 @@ pipeline {
         stage('Build Docker Image') {
             steps {
                 script {
-                    echo "Building Docker container image: ${appRegistry}:${BUILD_NUMBER}-${BUILD_TIMESTAMP}..."
-                    dockerImage = docker.build("${appRegistry}:${BUILD_NUMBER}-${BUILD_TIMESTAMP}", ".")
+                    echo "Building Docker container image: ${appRegistry}:${env.BUILD_NUMBER}..."
+                    dockerImage = docker.build("${appRegistry}:${env.BUILD_NUMBER}", ".")
                 }
             }
         }
@@ -71,8 +72,8 @@ pipeline {
             steps {
                 script {
                     echo 'Authenticating and pushing container image to AWS ECR...'
-                    docker.withRegistry(vprofileRegistry, registryCredential) {
-                        dockerImage.push("${BUILD_NUMBER}-${BUILD_TIMESTAMP}")
+                    docker.withRegistry(attendanceRegistry, registryCredential) {
+                        dockerImage.push("${env.BUILD_NUMBER}")
                         dockerImage.push('latest')
                     }
                 }
@@ -89,11 +90,11 @@ pipeline {
                             returnStdout: true
                         ).trim()
 
-                        echo "Registering new Task Definition revision with image ${appRegistry}:${BUILD_NUMBER}-${BUILD_TIMESTAMP}..."
+                        echo "Registering new Task Definition revision with image ${appRegistry}:${env.BUILD_NUMBER}..."
                         def newTaskDefArn = sh(
                             script: """
                                 aws ecs describe-task-definition --task-definition ${currentTaskDefArn} --query 'taskDefinition' | \
-                                jq '.containerDefinitions[0].image="${appRegistry}:${BUILD_NUMBER}-${BUILD_TIMESTAMP}" | del(.taskDefinitionArn, .revision, .status, .requiresAttributes, .compatibilities, .registeredAt, .registeredBy)' > updated-task-def.json
+                                jq '.containerDefinitions[0].image="${appRegistry}:${env.BUILD_NUMBER}" | del(.taskDefinitionArn, .revision, .status, .requiresAttributes, .compatibilities, .registeredAt, .registeredBy)' > updated-task-def.json
                                 aws ecs register-task-definition --cli-input-json file://updated-task-def.json --query 'taskDefinition.taskDefinitionArn' --output text
                             """,
                             returnStdout: true
@@ -113,7 +114,7 @@ pipeline {
     post {
         always {
             echo 'Cleaning up local docker images on Jenkins host...'
-            sh "docker rmi -f ${appRegistry}:${BUILD_NUMBER}-${BUILD_TIMESTAMP} ${appRegistry}:latest || true"
+            sh "docker rmi -f ${appRegistry}:${env.BUILD_NUMBER} ${appRegistry}:latest || true"
             sh 'docker image prune -f || true'
 
             echo 'Sending Slack build notification...'
